@@ -327,7 +327,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
   function frameHubCluster(hubId) {
     const hub = hubMap.get(hubId);
     if (!hub) return;
-    const zoom = width < 768 ? 0.68 : 0.9;
+    const zoom = width < 520 ? 0.56 : width < 768 ? 0.68 : 0.9;
     const freeCenterX = width >= 960 ? (width - 450) / 2 : width / 2;
     const focusWorldX = hub.x * 0.95;
     const focusWorldY = hub.y * 0.95;
@@ -340,7 +340,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
   function frameFullGraph() {
     const fitZoom = Math.min(
       0.84,
-      Math.max(0.52, Math.min((width - 80) / 1240, (height - 100) / 1060)),
+      Math.max(0.32, Math.min((width - 48) / 1240, (height - 160) / 1060)),
     );
     cam.targetX = 0;
     cam.targetY = 18;
@@ -463,9 +463,9 @@ export function createGraphCanvas(canvas, callbacks = {}) {
   function getDefaultCamera() {
     const z =
       width < 768
-        ? 0.72
+        ? Math.min(0.68, Math.max(0.42, (width - 48) / 720))
         : Math.min(1, Math.max(0.76, (height - 130) / 680));
-    return { x: 0, y: 28, zoom: z };
+    return { x: 0, y: width < 768 ? -42 : 28, zoom: z };
   }
 
   function resetView() {
@@ -479,7 +479,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
 
   function zoomBy(factor, pivotX = width / 2, pivotY = height / 2) {
     const prevZoom = cam.targetZoom;
-    const nextZoom = Math.min(2.3, Math.max(0.45, prevZoom * factor));
+    const nextZoom = Math.min(2.3, Math.max(0.3, prevZoom * factor));
     if (nextZoom === prevZoom) return;
 
     const worldPivotX = (pivotX - width / 2) / prevZoom - cam.targetX;

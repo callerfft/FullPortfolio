@@ -388,6 +388,7 @@ function initNavHintManager(hintEl, idleMs = 2800) {
 
 function positionPreviewCard(screenPos) {
   if (!screenPos || dom.previewCard.hidden) return;
+  if (window.innerWidth <= 767) return;
   const cardW = Math.min(340, window.innerWidth - 32);
   const cardH = dom.previewCard.offsetHeight || 360;
   const pad = 16;
