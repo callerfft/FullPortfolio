@@ -1,0 +1,41 @@
+:root {
+  /* Color Palette — Architectural Dark */
+  --bg-base: #07080a;
+  --bg-elevated: #0e1015;
+  --bg-surface: #13161d;
+  --bg-surface-hover: #181c25;
+
+  --text-primary: #f2f4f8;
+  --text-secondary: #98a1b0;
+  --text-muted: #5d6575;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --accent: #c8ff32;
+  --accent-dim: rgba(200, 255, 50, 0.12);
+  --accent-text: #07080a;
+
+  /* Typography */
+  --font-display: 'Syne', 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Layout & Spacing */
+  --container-max: 1320px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --header-h: 72px;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --duration-fast: 180ms;
+  --duration-med: 380ms;
+  --duration-slow: 560ms;
+}

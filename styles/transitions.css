@@ -1,0 +1,188 @@
+/* ==========================================================================
+   1. View Transitions API — 3D Case Morph & Directional Stepping
+   ========================================================================== */
+
+::view-transition {
+  pointer-events: none;
+}
+
+/* Morph preview card media & title directly into Case Study Detail */
+.node-preview-card[data-transitioning='true'] .preview-media {
+  view-transition-name: active-project-cover;
+}
+
+.node-preview-card[data-transitioning='true'] .preview-title {
+  view-transition-name: active-project-title;
+}
+
+.detail-cover {
+  view-transition-name: active-project-cover;
+}
+
+.detail-title {
+  view-transition-name: active-project-title;
+}
+
+::view-transition-group(active-project-cover),
+::view-transition-group(active-project-title) {
+  animation-duration: 0.54s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(active-project-cover),
+::view-transition-new(active-project-cover) {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 3D depth cross-fade on root view switch */
+::view-transition-old(root) {
+  animation: root-3d-out 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+::view-transition-new(root) {
+  animation: root-3d-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes root-3d-out {
+  to {
+    opacity: 0;
+    transform: perspective(1200px) translateZ(-60px) scale(0.97);
+  }
+}
+
+@keyframes root-3d-in {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) translateZ(40px) scale(1.02);
+  }
+}
+
+/* 3D Directional transitions when stepping Prev / Next inside detail view */
+html[data-nav-direction='next']::view-transition-old(detail-body) {
+  animation: slide-out-left 0.34s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+html[data-nav-direction='next']::view-transition-new(detail-body) {
+  animation: slide-in-right 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+html[data-nav-direction='prev']::view-transition-old(detail-body) {
+  animation: slide-out-right 0.34s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+html[data-nav-direction='prev']::view-transition-new(detail-body) {
+  animation: slide-in-left 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.detail-view[data-active='true'] .detail-content-anim {
+  view-transition-name: detail-body;
+}
+
+@keyframes slide-out-left {
+  to {
+    opacity: 0;
+    transform: perspective(1200px) translateX(-48px) rotateY(-8deg) scale(0.96);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) translateX(48px) rotateY(8deg) scale(0.96);
+  }
+}
+
+@keyframes slide-out-right {
+  to {
+    opacity: 0;
+    transform: perspective(1200px) translateX(48px) rotateY(8deg) scale(0.96);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) translateX(-48px) rotateY(-8deg) scale(0.96);
+  }
+}
+
+/* ==========================================================================
+   2. Node Preview Card Entry/Exit (@starting-style)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .node-preview-card {
+    opacity: 1;
+    scale: 1;
+    transition:
+      opacity 0.28s var(--ease-out-expo),
+      scale 0.28s var(--ease-out-expo),
+      display 0.28s allow-discrete;
+  }
+
+  @starting-style {
+    .node-preview-card {
+      opacity: 0;
+      scale: 0.92;
+    }
+  }
+}
+
+/* ==========================================================================
+   3. Top-Layer Dialog Entry/Exit Animation
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+    transition:
+      opacity 0.28s var(--ease-out-expo),
+      transform 0.28s var(--ease-out-expo),
+      display 0.28s allow-discrete,
+      overlay 0.28s allow-discrete;
+  }
+
+  dialog[open] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  @starting-style {
+    dialog[open] {
+      opacity: 0;
+      transform: translateY(14px) scale(0.97);
+    }
+  }
+
+  dialog::backdrop {
+    opacity: 0;
+    transition:
+      opacity 0.28s ease,
+      display 0.28s allow-discrete,
+      overlay 0.28s allow-discrete;
+  }
+
+  dialog[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    dialog[open]::backdrop {
+      opacity: 0;
+    }
+  }
+}
+
+/* ==========================================================================
+   4. Reduced Motion Safeguard
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

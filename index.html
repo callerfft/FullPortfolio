@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yohanson — Интерактивное портфолио</title>
+  <meta name="description" content="Портфолио и карта стеков: Backend, CyberSec & Reverse, AI & Vision, Web & UI, GameDev, Bots & Parsing.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2307080a'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='%23c8ff32'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://esm.sh" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/transitions.css">
+</head>
+<body class="canvas-active">
+  <!-- Interactive 3D WebGL Background Scene -->
+  <canvas id="bg-3d-canvas" class="bg-3d-canvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#canvas" class="brand magnetic" id="brand-link">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span data-scramble-on-load data-scramble>YOHANSON.DEV</span>
+      </a>
+
+      <div class="header-nav">
+        <span class="header-meta" data-scramble-on-load>
+          <span class="status-dot" aria-hidden="true"></span>
+          OPEN TO WORK // 2026
+        </span>
+        <div class="mode-switch" id="view-mode-switch" role="group" aria-label="Режим отображения: проекты или стеки">
+          <button type="button" class="mode-switch-btn is-active" data-view-mode="projects" aria-pressed="true">Проекты</button>
+          <button type="button" class="mode-switch-btn" data-view-mode="stacks" aria-pressed="false">Стеки</button>
+        </div>
+        <button type="button" class="btn btn-hud-toggle magnetic" id="toggle-all-btn" aria-pressed="false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"></circle>
+            <circle cx="19" cy="5" r="2"></circle>
+            <circle cx="5" cy="5" r="2"></circle>
+            <circle cx="5" cy="19" r="2"></circle>
+            <circle cx="19" cy="19" r="2"></circle>
+          </svg>
+          <span>Весь граф</span>
+        </button>
+        <button type="button" class="btn btn-subtle magnetic" id="open-resume-btn" data-scramble>
+          Резюме
+        </button>
+        <button type="button" class="btn btn-primary magnetic" id="open-contact-btn" data-scramble>
+          Связаться
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app-main">
+    <!-- Unattached Fixed Close Button for Open Hub Drawer or Preview Card -->
+    <button type="button" id="floating-close-btn" class="floating-close-btn" aria-label="Закрыть панель" hidden>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+
+    <!-- 1. INFINITE CANVAS GRAPH VIEW (HERO) -->
+    <section id="canvas-view" class="view-panel canvas-view" aria-label="Интерактивный граф направлений и стеков">
+      <canvas id="graph-canvas" class="graph-canvas"></canvas>
+
+      <div class="canvas-intro">
+        <div class="canvas-eyebrow" data-scramble-on-load>Stack &amp; Systems Graph</div>
+        <h1 class="canvas-title" id="canvas-heading" tabindex="-1">
+          Направления и <span class="accent-word" data-scramble-on-load data-scramble>проекты</span>
+        </h1>
+      </div>
+
+      <!-- Lateral Profile Intro Overlay (Dissolves on any click) -->
+      <aside id="profile-intro-drawer" class="profile-intro-drawer" data-lenis-prevent aria-label="Профиль разработчика">
+        <div class="profile-drawer-glass">
+          <div class="profile-drawer-header">
+            <div class="profile-avatar-wrap">
+              <img
+                src="./assets/avatar.jpg"
+                alt="Kamron Nabiev — Yohanson"
+                class="profile-avatar-img"
+                width="44"
+                height="44"
+                loading="eager"
+              />
+            </div>
+            <div class="profile-title-block">
+              <span class="profile-handle">KAMRON NABIEV // YOHANSON</span>
+              <h2 class="profile-name">Python Full-Stack · GameDev · ServerAdmission</h2>
+            </div>
+            <button type="button" class="profile-dismiss-btn" id="dismiss-intro-btn" aria-label="Закрыть интро">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="profile-drawer-body">
+            <p class="profile-bio">
+              Backend и Database Design (Docker, Redis, PostgreSQL), Nginx, ServerAdmission, разработка игр, кибербезопасность и пентест.
+            </p>
+            <div class="profile-specialties">
+              <span class="profile-spec-tag">Python Full-Stack</span>
+              <span class="profile-spec-tag">Docker · Redis · PostgreSQL</span>
+              <span class="profile-spec-tag">Nginx · ServerAdmission</span>
+              <span class="profile-spec-tag">GameDev · Cybersec · Pentest</span>
+            </div>
+            <div class="profile-drawer-actions">
+              <button type="button" class="btn btn-subtle btn-sm" id="intro-resume-btn">
+                Открыть резюме
+              </button>
+              <span class="profile-dismiss-hint">Кликните по фону → граф</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Category Hub Side Drawer (Slide-over on hub node click) -->
+      <aside id="hub-drawer" class="hub-drawer" data-lenis-prevent aria-label="Стеки и проекты направления" hidden>
+        <div class="hub-drawer-glass">
+          <div class="hub-drawer-header">
+            <div class="hub-badge-group">
+              <span class="hub-drawer-badge" id="hub-drawer-badge">Backend</span>
+              <span class="hub-drawer-count" id="hub-drawer-count">0 проектов</span>
+            </div>
+            <button type="button" class="hub-close-btn" id="close-hub-drawer-btn" aria-label="Закрыть панель направления">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="hub-drawer-info">
+            <h2 class="hub-drawer-title" id="hub-drawer-title">Направление</h2>
+            <p class="hub-drawer-desc" id="hub-drawer-desc"></p>
+          </div>
+
+          <!-- Tech Stacks of the selected direction -->
+          <div class="hub-stacks-section" id="hub-stacks-section">
+            <div class="hub-section-label">Используемый стек (фильтр проектов)</div>
+            <div class="hub-drawer-stacks" id="hub-drawer-stacks"></div>
+          </div>
+
+          <div class="hub-section-label">Проекты</div>
+          <div class="hub-drawer-projects" id="hub-drawer-projects"></div>
+        </div>
+      </aside>
+
+      <!-- Floating Glass Preview Card at Branch Tip -->
+      <aside id="node-preview-card" class="node-preview-card" data-lenis-prevent aria-label="Превью проекта" hidden>
+        <div class="preview-media">
+          <canvas id="live-preview-canvas" class="live-preview-canvas"></canvas>
+          <button type="button" class="preview-close" id="preview-close-btn" aria-label="Закрыть превью">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="preview-body">
+          <div class="preview-meta">
+            <span id="preview-category">Backend</span>
+            <span id="preview-year">2026</span>
+          </div>
+          <h2 class="preview-title" id="preview-title">Project Title</h2>
+          <p class="preview-tagline" id="preview-tagline"></p>
+          <div class="preview-tags" id="preview-stack"></div>
+          <div class="preview-actions">
+            <div class="preview-hubs" id="preview-hubs"></div>
+            <button type="button" class="btn btn-primary magnetic" id="open-case-btn">
+              Открыть кейс
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Autonomous Bottom Pulsing Navigation Hint -->
+      <div id="canvas-nav-hint" class="canvas-nav-hint is-pulsing" aria-live="polite">
+        <span class="hint-pulse-dot" aria-hidden="true"></span>
+        <span class="hint-text">Тяните фон · Колесо — зум · Клик по узлу — стек и проекты</span>
+        <a href="#bento-showcase" class="hint-scroll-btn magnetic" id="scroll-to-bento" aria-label="К проектам ниже">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="m6 9 6 6 6-6"></path>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. BENTO GRID SHOWCASE PRESENTATION SECTION -->
+    <section id="bento-showcase" class="bento-showcase-section" aria-label="Проекты и стеки">
+      <div class="container">
+        <div class="bento-header-row">
+          <div class="bento-header">
+            <div class="bento-eyebrow" id="bento-eyebrow">Projects Showcase</div>
+            <h2 class="bento-headline" id="bento-headline">Проекты</h2>
+          </div>
+          <div class="bento-filter-bar" id="bento-filter-bar" role="group" aria-label="Фильтр по направлению"></div>
+        </div>
+        <div id="bento-grid" class="bento-grid"></div>
+      </div>
+    </section>
+
+    <!-- 3. CASE DETAIL VIEW -->
+    <section id="detail-view" class="view-panel detail-view" aria-label="Кейс проекта" hidden>
+      <div class="container">
+        <div class="detail-topbar">
+          <button type="button" class="btn magnetic" id="back-to-graph-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+            К графу
+          </button>
+
+          <div class="detail-nav-pair">
+            <button type="button" class="btn btn-icon magnetic" id="prev-project-btn" aria-label="Предыдущий проект">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="m15 18-6-6 6-6"></path>
+              </svg>
+            </button>
+            <button type="button" class="btn btn-icon magnetic" id="next-project-btn" aria-label="Следующий проект">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="detail-content-anim" id="detail-content"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Resume Dialog (Ready for user's PDF / CV content) -->
+  <dialog id="resume-dialog" closedby="any" aria-labelledby="resume-dialog-title">
+    <div class="dialog-inner resume-dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <span class="resume-status-badge" id="resume-availability">Open to Work</span>
+          <h2 class="dialog-title" id="resume-dialog-title">Kamron Nabiev (Yohanson) — Резюме</h2>
+          <p class="resume-role-subtitle" id="resume-role"></p>
+        </div>
+        <button type="button" class="btn btn-icon" id="close-resume-btn" aria-label="Закрыть резюме">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <p class="dialog-text" id="resume-summary"></p>
+
+      <div class="resume-sections" id="resume-sections"></div>
+
+      <div class="resume-footer" id="resume-footer"></div>
+    </div>
+  </dialog>
+
+  <!-- Contact Modal Dialog -->
+  <dialog id="contact-dialog" closedby="any" aria-labelledby="contact-dialog-title">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <h2 class="dialog-title" id="contact-dialog-title">Связаться</h2>
+        <button type="button" class="btn btn-icon" id="close-contact-btn" aria-label="Закрыть окно">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="contact-links">
+        <button type="button" class="contact-item" data-copy="callerff01@gmail.com" autofocus>
+          <span>callerff01@gmail.com</span>
+          <span class="contact-label" data-copy-label>Копировать</span>
+        </button>
+        <a href="https://github.com/callerfft" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span>GitHub · callerfft</span>
+          <span class="contact-label">Открыть</span>
+        </a>
+        <a href="https://www.linkedin.com/in/kamron-nabiev-3b59943b7" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span>LinkedIn · Kamron Nabiev</span>
+          <span class="contact-label">Открыть</span>
+        </a>
+        <a href="https://t.me/yfnntd" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span>Telegram · @yfnntd</span>
+          <span class="contact-label">Написать</span>
+        </a>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Screenshot Lightbox Dialog -->
+  <dialog id="screenshot-dialog" class="screenshot-dialog" closedby="any" aria-label="Просмотр скриншота">
+    <div class="screenshot-dialog-inner">
+      <div class="screenshot-dialog-head">
+        <p class="screenshot-dialog-caption" id="screenshot-dialog-caption"></p>
+        <button type="button" class="btn btn-icon" id="close-screenshot-btn" aria-label="Закрыть изображение">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <img id="screenshot-dialog-img" class="screenshot-dialog-img" src="" alt="" />
+    </div>
+  </dialog>
+
+  <script type="module" src="scripts/app.js"></script>
+</body>
+</html>
