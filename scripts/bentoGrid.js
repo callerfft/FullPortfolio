@@ -1,5 +1,5 @@
 import { HUBS } from '../data/projects.js';
-import { renderCoverSvg } from './covers.js';
+import { renderCoverSvg, renderStackIconSvg } from './covers.js';
 
 function escapeHtml(str) {
   return String(str)
@@ -179,7 +179,10 @@ export function initBentoGrid(container, projects, callbacks = {}) {
             </div>
 
             <div class="bento-body">
-              <h3 class="bento-title">${escapeHtml(st.name)}</h3>
+              <div class="bento-stack-title-row">
+                <span class="bento-stack-icon">${renderStackIconSvg(st.name, hub.color)}</span>
+                <h3 class="bento-title">${escapeHtml(st.name)}</h3>
+              </div>
               <div class="bento-stack-projects">${projectButtonsHtml}</div>
             </div>
           </article>

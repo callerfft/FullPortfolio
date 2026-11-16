@@ -13,7 +13,7 @@ export function mountLivePreview(canvas, project) {
   canvas.height = h * dpr;
   ctx.scale(dpr, dpr);
 
-  const color = project.accent || '#c8ff32';
+  const color = project.accent || '#f4f4f6';
   const mode = project.previewMode || 'orbital';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -29,7 +29,7 @@ export function mountLivePreview(canvas, project) {
     const t = reduced ? 1.2 : (now - start) * 0.001;
 
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#090b10';
+    ctx.fillStyle = '#070709';
     ctx.fillRect(0, 0, w, h);
 
     // Subtle scan grid

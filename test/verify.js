@@ -422,6 +422,9 @@ const appSource = readFileSync(resolve(rootDir, 'scripts/app.js'), 'utf-8');
 assert(appSource.includes('syncFloatingCloseBtn') && appSource.includes('syncCanvasIntroBackdrop'), 'scripts/app.js wires syncFloatingCloseBtn() and syncCanvasIntroBackdrop()');
 assert(appSource.includes('originReason') && dataMod.PROJECTS.every(p => typeof p.originReason === 'string' && p.originReason.length > 20), 'All 16 projects define originReason and app.js renders it on detail view');
 
+const coversSource = readFileSync(resolve(rootDir, 'scripts/covers.js'), 'utf-8');
+assert(coversSource.includes('customScenes') && /export\s+function\s+renderStackIconSvg\b/.test(coversSource), 'scripts/covers.js provides project-specific SVG scenes and renderStackIconSvg() for stack cards');
+
 assert(existsSync(resolve(rootDir, 'assets/avatar.jpg')), 'assets/avatar.jpg profile avatar file exists');
 assert(dataMod.PROFILE_NODE?.avatarUrl === './assets/avatar.jpg', 'PROFILE_NODE configures avatarUrl');
 assert(dataMod.PROFILE_NODE?.links?.github === 'https://github.com/callerfft', 'PROFILE_NODE sets GitHub link');

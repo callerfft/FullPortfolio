@@ -1407,6 +1407,28 @@ dialog::backdrop {
   z-index: 2;
 }
 
+.bento-stack-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.25rem;
+}
+
+.bento-stack-title-row .bento-title {
+  margin: 0;
+}
+
+.bento-stack-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--text-primary);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
 .bento-stack-projects {
   display: flex;
   flex-direction: column;
