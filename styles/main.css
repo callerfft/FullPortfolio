@@ -177,7 +177,7 @@ body.canvas-active {
 }
 
 .btn-primary:hover {
-  background: #d6ff66;
+  background: #ffffff;
   border-color: transparent;
 }
 
@@ -405,7 +405,7 @@ body.canvas-active {
 .profile-drawer-glass {
   padding: 1.35rem;
   border-radius: var(--radius-lg);
-  background: rgba(13, 16, 23, 0.94);
+  background: rgba(10, 10, 13, 0.94);
   border: none;
   box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.85);
 }
@@ -421,7 +421,7 @@ body.canvas-active {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-md);
-  background: rgba(200, 255, 50, 0.12);
+  background: rgba(255, 255, 255, 0.08);
   border: none;
   display: flex;
   align-items: center;
@@ -540,7 +540,7 @@ body.canvas-active {
   display: flex;
   flex-direction: column;
   padding: calc(var(--header-h) + 1.25rem) 1.5rem 2rem;
-  background: rgba(12, 15, 22, 0.96);
+  background: rgba(10, 10, 13, 0.96);
   border-left: none;
   box-shadow: -20px 0 60px rgba(0, 0, 0, 0.85);
   overflow-y: auto;
@@ -714,7 +714,7 @@ body.canvas-active {
   z-index: 35;
   width: min(340px, calc(100vw - 2rem));
   border-radius: var(--radius-lg);
-  background: rgba(13, 16, 23, 0.96);
+  background: rgba(10, 10, 13, 0.96);
   border: none;
   box-shadow: 0 28px 70px -15px rgba(0, 0, 0, 0.85);
   overflow: hidden;
@@ -1192,7 +1192,7 @@ dialog::backdrop {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-lg);
-  background: rgba(14, 17, 24, 0.88);
+  background: rgba(12, 12, 15, 0.9);
   border: 1px solid transparent;
   overflow: hidden;
   padding: 0.95rem 1rem;
@@ -1204,7 +1204,7 @@ dialog::backdrop {
 
 .bento-card:hover {
   transform: translateY(-3px);
-  background: rgba(16, 20, 28, 0.84);
+  background: rgba(18, 18, 22, 0.94);
 }
 
 /* Linear-style Cursor Spotlight Border Mask */
@@ -1216,8 +1216,8 @@ dialog::backdrop {
   padding: 1px;
   background: radial-gradient(
     380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-    rgba(200, 255, 50, 0.5),
-    rgba(255, 255, 255, 0.09) 35%,
+    rgba(255, 255, 255, 0.36),
+    rgba(255, 255, 255, 0.08) 35%,
     transparent 75%
   );
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -1237,7 +1237,7 @@ dialog::backdrop {
   border-radius: inherit;
   background: radial-gradient(
     480px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-    rgba(200, 255, 50, 0.05),
+    rgba(255, 255, 255, 0.045),
     transparent 65%
   );
   pointer-events: none;
@@ -1389,7 +1389,7 @@ dialog::backdrop {
 
 .preview-project-jump:hover {
   border-color: var(--accent);
-  background: rgba(200, 255, 50, 0.12);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .bento-card-stack {

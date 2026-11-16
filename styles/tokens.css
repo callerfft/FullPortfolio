@@ -1,20 +1,20 @@
 :root {
-  /* Color Palette — Architectural Dark */
-  --bg-base: #07080a;
-  --bg-elevated: #0e1015;
-  --bg-surface: #13161d;
-  --bg-surface-hover: #181c25;
+  /* Color Palette — Monolith Ghost (Matte Obsidian & Alabaster) */
+  --bg-base: #040405;
+  --bg-elevated: #0a0a0c;
+  --bg-surface: #121215;
+  --bg-surface-hover: #19191f;
 
-  --text-primary: #f2f4f8;
-  --text-secondary: #98a1b0;
-  --text-muted: #5d6575;
+  --text-primary: #f4f4f6;
+  --text-secondary: #a1a1aa;
+  --text-muted: #64646e;
 
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.14);
 
-  --accent: #c8ff32;
-  --accent-dim: rgba(200, 255, 50, 0.12);
-  --accent-text: #07080a;
+  --accent: #f4f4f6;
+  --accent-dim: rgba(255, 255, 255, 0.09);
+  --accent-text: #050506;
 
   /* Typography */
   --font-display: 'Syne', 'Space Grotesk', system-ui, sans-serif;

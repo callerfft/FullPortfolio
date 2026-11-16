@@ -62,7 +62,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
   };
 
   // Ambient background parallax blurred bokeh spheres ("sleeping" nodes)
-  const ambientColors = ['#8b94a5', '#38bdf8', '#c8ff32', '#a855f7'];
+  const ambientColors = ['#52525b', '#71717a', '#a1a1aa', '#d4d4d8'];
   const ambientNodes = Array.from({ length: 18 }, (_, i) => {
     const angle = (i / 18) * Math.PI * 2 + (i % 3) * 0.45;
     const dist = 190 + ((i * 173) % 640);
@@ -745,7 +745,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
         const c2 = Math.min(1, wavePhase + 0.16);
 
         const highwayGrad = ctx.createLinearGradient(cScreen.x, cScreen.y, hScreen.x, hScreen.y);
-        highwayGrad.addColorStop(0, 'rgba(200, 255, 50, 0.24)');
+        highwayGrad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
         highwayGrad.addColorStop(c1, `${h.color}28`);
         highwayGrad.addColorStop(wavePhase, `${h.color}aa`);
         highwayGrad.addColorStop(c2, `${h.color}28`);
@@ -859,9 +859,9 @@ export function createGraphCanvas(canvas, callbacks = {}) {
       for (let w = 0; w < 3; w++) {
         const phase = (((time * 0.28 + w / 3) % 1) + 1) % 1;
         const waveR = baseR * (1.1 + phase * 2.5);
-        const waveAlpha = (1 - phase) * 0.34;
-        ctx.strokeStyle = `rgba(200, 255, 50, ${waveAlpha.toFixed(3)})`;
-        ctx.lineWidth = 1.2 * (1 - phase * 0.5);
+        const waveAlpha = (1 - phase) * 0.24;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${waveAlpha.toFixed(3)})`;
+        ctx.lineWidth = 1.1 * (1 - phase * 0.5);
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, waveR, 0, Math.PI * 2);
         ctx.stroke();
@@ -870,11 +870,11 @@ export function createGraphCanvas(canvas, callbacks = {}) {
 
     // 2. Soft accretion glow around the event horizon (cached offscreen sprite)
     const pulseFactor = reducedMotion() ? 1 : 1 + Math.sin(time * 2.2) * 0.08;
-    drawGlow('#22d3ee', pos.x, pos.y, baseR * 2.8 * pulseFactor, 0.22);
-    drawGlow('#c8ff32', pos.x, pos.y, baseR * 2.4 * pulseFactor, 0.36);
+    drawGlow('#a1a1aa', pos.x, pos.y, baseR * 2.8 * pulseFactor, 0.16);
+    drawGlow('#ffffff', pos.x, pos.y, baseR * 2.3 * pulseFactor, 0.22);
 
     // 3. Outer event-horizon background
-    ctx.fillStyle = '#07090e';
+    ctx.fillStyle = '#050507';
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, baseR, 0, Math.PI * 2);
     ctx.fill();
@@ -941,7 +941,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
       ctx.arc(3.5, 0.5, 2.2, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = '#c8ff32';
+      ctx.fillStyle = '#f4f4f6';
       ctx.beginPath();
       ctx.arc(-3.5, 0.5, 1, 0, Math.PI * 2);
       ctx.arc(3.5, 0.5, 1, 0, Math.PI * 2);
@@ -951,8 +951,8 @@ export function createGraphCanvas(canvas, callbacks = {}) {
     }
 
     // Outer event-horizon border ring over avatar/core
-    ctx.strokeStyle = isHovered ? '#ffffff' : '#c8ff32';
-    ctx.lineWidth = isHovered ? 2.8 : 2;
+    ctx.strokeStyle = isHovered ? '#ffffff' : 'rgba(244, 244, 246, 0.72)';
+    ctx.lineWidth = isHovered ? 2.6 : 1.8;
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, baseR, 0, Math.PI * 2);
     ctx.stroke();
@@ -966,7 +966,7 @@ export function createGraphCanvas(canvas, callbacks = {}) {
 
     const subFontSize = Math.round(10 * Math.max(0.82, Math.min(1.1, cam.zoom)));
     ctx.font = `500 ${subFontSize}px "JetBrains Mono", monospace`;
-    ctx.fillStyle = '#c8ff32';
+    ctx.fillStyle = '#a1a1aa';
     ctx.fillText('CORE / PROFILE', pos.x, pos.y + baseR + 34);
 
     ctx.restore();

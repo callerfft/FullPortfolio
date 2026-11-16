@@ -286,7 +286,7 @@ function renderResumeModal() {
 
 function renderBentoFilters() {
   if (!dom.bentoFilterBar) return;
-  const items = [{ id: 'all', label: 'Все', color: '#c8ff32' }, ...HUBS];
+  const items = [{ id: 'all', label: 'Все', color: '#f4f4f6' }, ...HUBS];
   dom.bentoFilterBar.innerHTML = items
     .map(
       (item) => `

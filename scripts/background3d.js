@@ -53,13 +53,13 @@ export function init3DBackground(canvas) {
     return c;
   }
 
-  // 3D depth spheres orbiting in background space
+  // Deep matte monochrome smoked mist orbs (Monolith Ghost)
   const orbs = [
-    { bx: -0.95, by: -0.52, bz: -0.35, radius: 0.42, color: '200, 255, 50', alpha: 0.38, speed: 0.22, phase: 0.2 },
-    { bx: 0.92, by: 0.45, bz: 0.25, radius: 0.46, color: '34, 211, 238', alpha: 0.34, speed: -0.18, phase: 1.7 },
-    { bx: -0.55, by: 0.68, bz: 0.48, radius: 0.38, color: '168, 85, 247', alpha: 0.30, speed: 0.15, phase: 3.1 },
-    { bx: 0.62, by: -0.65, bz: -0.45, radius: 0.35, color: '56, 189, 248', alpha: 0.28, speed: -0.21, phase: 4.4 },
-    { bx: 0.04, by: 0.05, bz: -0.6, radius: 0.56, color: '200, 255, 50', alpha: 0.16, speed: 0.11, phase: 2.5 },
+    { bx: -0.92, by: -0.5, bz: -0.35, radius: 0.48, color: '255, 255, 255', alpha: 0.11, speed: 0.18, phase: 0.2 },
+    { bx: 0.88, by: 0.45, bz: 0.25, radius: 0.52, color: '161, 161, 170', alpha: 0.13, speed: -0.15, phase: 1.7 },
+    { bx: -0.52, by: 0.65, bz: 0.48, radius: 0.44, color: '113, 113, 122', alpha: 0.14, speed: 0.13, phase: 3.1 },
+    { bx: 0.62, by: -0.62, bz: -0.45, radius: 0.4, color: '212, 212, 216', alpha: 0.09, speed: -0.17, phase: 4.4 },
+    { bx: 0.04, by: 0.04, bz: -0.6, radius: 0.62, color: '255, 255, 255', alpha: 0.06, speed: 0.09, phase: 2.5 },
   ];
 
   // Lightweight 3D projected ring helper (28 segments)
@@ -187,16 +187,21 @@ export function init3DBackground(canvas) {
       ctx.drawImage(getOrbSprite(o.color), sx - sr, sy - sr, sr * 2, sr * 2);
     }
 
-    // Two subtle 3D orbital rings in depth
-    ctx.globalAlpha = 0.16;
-    ctx.strokeStyle = '#c8ff32';
+    // Subtle monochrome architectural gyroscope rings in depth
+    ctx.globalAlpha = 0.12;
+    ctx.strokeStyle = '#f4f4f6';
     ctx.lineWidth = 0.85;
-    projectRing(1.02, rotX + 0.45, rotY + t * 0.18, t * 0.24, 2.8);
+    projectRing(1.08, rotX + 0.45, rotY + t * 0.16, t * 0.2, 2.8);
 
-    ctx.globalAlpha = 0.18;
-    ctx.strokeStyle = '#60a5fa';
+    ctx.globalAlpha = 0.1;
+    ctx.strokeStyle = '#a1a1aa';
     ctx.lineWidth = 0.75;
-    projectRing(0.68, -rotX + 0.95, rotY - t * 0.22, -t * 0.32, 2.8);
+    projectRing(0.76, -rotX + 0.95, rotY - t * 0.18, -t * 0.26, 2.8);
+
+    ctx.globalAlpha = 0.07;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 0.65;
+    projectRing(1.36, rotX * 0.6 + 1.25, rotY + 0.4, t * 0.11, 3.1);
 
     ctx.globalAlpha = 1;
     rafId = requestAnimationFrame(animate);
