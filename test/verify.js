@@ -416,9 +416,11 @@ assert(graphSource.includes('glowSpriteCache') && !graphSource.includes('offsetP
 assert(graphSource.includes('stackNodes') && graphSource.includes('setMode'), 'scripts/graphCanvas.js builds stackNodes and supports setMode(projects/stacks)');
 assert(bentoSource.includes('renderStackCards'), 'scripts/bentoGrid.js supports rendering stack cards in "Стеки" mode');
 assert(bentoSource.includes('bento-span-4') && !bentoSource.includes('bento-tags') && !bentoSource.includes('bento-footer'), 'scripts/bentoGrid.js renders compact 3-col cards without hashtags (.bento-tags) or bottom bars (.bento-footer)');
+assert(bentoSource.includes('packBentoRows') && bentoSource.includes('getProjectWeight') && cssContent.includes('.bento-span-8'), 'Bento grid arranges projects and stacks in staggered checkerboard spans by content weight');
 
 const appSource = readFileSync(resolve(rootDir, 'scripts/app.js'), 'utf-8');
 assert(appSource.includes('syncFloatingCloseBtn') && appSource.includes('syncCanvasIntroBackdrop'), 'scripts/app.js wires syncFloatingCloseBtn() and syncCanvasIntroBackdrop()');
+assert(appSource.includes('originReason') && dataMod.PROJECTS.every(p => typeof p.originReason === 'string' && p.originReason.length > 20), 'All 16 projects define originReason and app.js renders it on detail view');
 
 assert(existsSync(resolve(rootDir, 'assets/avatar.jpg')), 'assets/avatar.jpg profile avatar file exists');
 assert(dataMod.PROFILE_NODE?.avatarUrl === './assets/avatar.jpg', 'PROFILE_NODE configures avatarUrl');

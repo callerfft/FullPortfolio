@@ -611,6 +611,15 @@ function renderDetailContent(project) {
       `
       : renderCoverSvg(project, 'detail-cover-svg');
 
+  const originReasonHtml = project.originReason
+    ? `
+      <div class="detail-value-prop detail-value-prop--origin" style="border-left-color: rgba(255, 255, 255, 0.22);">
+        <div class="detail-value-prop-label">Почему создан</div>
+        <p>${escapeHtml(project.originReason)}</p>
+      </div>
+    `
+    : '';
+
   const valuePropHtml = project.valueProp
     ? `
       <div class="detail-value-prop" style="border-left-color: ${project.accent};">
@@ -619,6 +628,11 @@ function renderDetailContent(project) {
       </div>
     `
     : '';
+
+  const storyGridHtml =
+    originReasonHtml || valuePropHtml
+      ? `<div class="detail-story-grid">${originReasonHtml}${valuePropHtml}</div>`
+      : '';
 
   const featuresHtml =
     project.features && project.features.length > 0
@@ -710,7 +724,7 @@ function renderDetailContent(project) {
         ${project.role ? `<div class="detail-role">${escapeHtml(project.role)}</div>` : ''}
 
         <p class="detail-tagline">${escapeHtml(project.tagline)}</p>
-        ${valuePropHtml}
+        ${storyGridHtml}
         <p class="detail-description">${escapeHtml(project.description)}</p>
 
         <div class="preview-tags">

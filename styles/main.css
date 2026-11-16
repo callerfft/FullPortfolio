@@ -1154,12 +1154,20 @@ dialog::backdrop {
   grid-column: span 7;
 }
 
+.bento-span-8 {
+  grid-column: span 8;
+}
+
 .bento-span-12 {
   grid-column: span 12;
 }
 
 @media (max-width: 1080px) {
-  .bento-span-4 {
+  .bento-span-4,
+  .bento-span-5,
+  .bento-span-6,
+  .bento-span-7,
+  .bento-span-8 {
     grid-column: span 6;
   }
 }
@@ -1169,6 +1177,7 @@ dialog::backdrop {
   .bento-span-5,
   .bento-span-6,
   .bento-span-7,
+  .bento-span-8,
   .bento-span-12 {
     grid-column: span 12;
   }
@@ -1405,6 +1414,28 @@ dialog::backdrop {
   margin-top: 0.45rem;
   position: relative;
   z-index: 2;
+}
+
+@media (min-width: 681px) {
+  .bento-span-7 .bento-media,
+  .bento-span-8 .bento-media,
+  .bento-span-12 .bento-media {
+    max-height: 175px;
+  }
+
+  .bento-span-7 .bento-tagline,
+  .bento-span-8 .bento-tagline,
+  .bento-span-12 .bento-tagline {
+    -webkit-line-clamp: 3;
+  }
+
+  .bento-span-7 .bento-stack-projects,
+  .bento-span-8 .bento-stack-projects,
+  .bento-span-12 .bento-stack-projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
 }
 
 .bento-stack-project-btn {
@@ -1834,8 +1865,14 @@ dialog::backdrop {
   pointer-events: none;
 }
 
+.detail-story-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
 .detail-value-prop {
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1.1rem;
   border-radius: var(--radius-md);
   background: rgba(14, 17, 23, 0.84);
   border: none;

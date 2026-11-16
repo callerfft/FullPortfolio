@@ -25,21 +25,95 @@ export function initBentoGrid(container, projects, callbacks = {}) {
     return 'проектов';
   }
 
+  const SPAN_CLASS = {
+    4: 'bento-span-4',
+    5: 'bento-span-5',
+    6: 'bento-span-6',
+    7: 'bento-span-7',
+    8: 'bento-span-8',
+    12: 'bento-span-12',
+  };
+
+  function getProjectWeight(p) {
+    return (
+      (p.screenshots?.length || 0) * 3 +
+      (p.features?.length || 0) * 1.5 +
+      (p.architecture?.length || 0) +
+      (p.challenges?.length || 0) +
+      (p.metrics?.length || 0) +
+      Math.min(4, Math.floor((p.stack?.length || 0) / 2))
+    );
+  }
+
+  /**
+   * Раскладывает элементы в шахматную Bento-сетку (строки по 12 колонок)
+   * в зависимости от насыщенности контентом.
+   */
+  function packBentoRows(scoredItems) {
+    const remaining = [...scoredItems];
+    const placed = [];
+    let rowIdx = 0;
+
+    while (remaining.length > 0) {
+      if (remaining.length === 1) {
+        const only = remaining.shift();
+        placed.push({ ...only, span: 12 });
+        break;
+      }
+
+      if (remaining.length === 3) {
+        const [a, b, c] = remaining.splice(0, 3);
+        const ordered =
+          rowIdx % 2 === 0
+            ? [a, b, c].sort((x, y) => y.weight - x.weight)
+            : [a, b, c].sort((x, y) => x.weight - y.weight);
+        ordered.forEach((item) => placed.push({ ...item, span: 4 }));
+        rowIdx += 1;
+        continue;
+      }
+
+      const [first, second] = remaining.splice(0, 2);
+      const [richer, lighter] =
+        first.weight >= second.weight ? [first, second] : [second, first];
+      const delta = richer.weight - lighter.weight;
+      const isHeavyGap = delta >= 6 || (richer.weight >= 14 && lighter.weight <= 8);
+      const wideSpan = isHeavyGap ? 8 : delta >= 2 ? 7 : 6;
+      const narrowSpan = 12 - wideSpan;
+
+      // Шахматное чередование широкой и компактной карточек по строкам
+      if (rowIdx % 2 === 0) {
+        placed.push({ ...richer, span: wideSpan });
+        placed.push({ ...lighter, span: narrowSpan });
+      } else {
+        placed.push({ ...lighter, span: narrowSpan });
+        placed.push({ ...richer, span: wideSpan });
+      }
+      rowIdx += 1;
+    }
+
+    return placed;
+  }
+
   function renderProjectCards(activeHubFilter) {
     const visibleProjects =
       activeHubFilter === 'all'
         ? projects
         : projects.filter((p) => p.hubs.includes(activeHubFilter));
 
-    return visibleProjects
-      .map((p) => {
+    const packed = packBentoRows(
+      visibleProjects.map((p) => ({ item: p, weight: getProjectWeight(p) })),
+    );
+
+    return packed
+      .map(({ item: p, span }) => {
+        const spanClass = SPAN_CLASS[span] || 'bento-span-4';
         const mediaHtml =
           p.screenshots && p.screenshots.length > 0
             ? `<img class="bento-screenshot" src="${escapeHtml(p.screenshots[0].src)}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">`
             : renderCoverSvg(p, 'bento-cover-svg');
 
         return `
-          <article class="bento-card bento-span-4" data-project-id="${p.id}" style="--project-accent: ${p.accent};">
+          <article class="bento-card ${spanClass}" data-project-id="${p.id}" style="--project-accent: ${p.accent};">
             <div class="bento-media">
               <div class="bento-cover-wrap">
                 ${mediaHtml}
@@ -68,13 +142,24 @@ export function initBentoGrid(container, projects, callbacks = {}) {
     const targetHubs =
       activeHubFilter === 'all' ? HUBS : HUBS.filter((h) => h.id === activeHubFilter);
 
-    const cards = [];
+    const rawStacks = [];
     for (const hub of targetHubs) {
       for (const st of hub.techStacks || []) {
         const linkedProjects = (st.projects || [])
           .map((pid) => projectMap.get(pid))
           .filter(Boolean);
+        rawStacks.push({
+          item: { hub, st, linkedProjects },
+          weight: linkedProjects.length * 4 + (st.name.length > 15 ? 1 : 0),
+        });
+      }
+    }
 
+    const packed = packBentoRows(rawStacks);
+
+    return packed
+      .map(({ item: { hub, st, linkedProjects }, span }) => {
+        const spanClass = SPAN_CLASS[span] || 'bento-span-4';
         const projectButtonsHtml = linkedProjects
           .map(
             (p) => `
@@ -86,8 +171,8 @@ export function initBentoGrid(container, projects, callbacks = {}) {
           )
           .join('');
 
-        cards.push(`
-          <article class="bento-card bento-span-4 bento-card-stack" data-stack-name="${escapeHtml(st.name)}" style="--project-accent: ${hub.color};">
+        return `
+          <article class="bento-card ${spanClass} bento-card-stack" data-stack-name="${escapeHtml(st.name)}" style="--project-accent: ${hub.color};">
             <div class="bento-stack-head">
               <span class="bento-cat-badge" style="color: ${hub.color};">${escapeHtml(hub.label)}</span>
               <span class="bento-year-badge">${linkedProjects.length} ${pluralizeProjects(linkedProjects.length)}</span>
@@ -98,10 +183,9 @@ export function initBentoGrid(container, projects, callbacks = {}) {
               <div class="bento-stack-projects">${projectButtonsHtml}</div>
             </div>
           </article>
-        `);
-      }
-    }
-    return cards.join('');
+        `;
+      })
+      .join('');
   }
 
   let currentMode = 'projects';
